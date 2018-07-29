@@ -1,3 +1,1 @@
-# leetcode answer
-# environment:
-## python3
+# leetcode answer(python3)
