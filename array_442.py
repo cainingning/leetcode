@@ -34,9 +34,3 @@ class Solution:
                 result.append(nums[i])
 
         return result
-
-
-
-
-
-

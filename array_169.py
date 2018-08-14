@@ -12,7 +12,3 @@ class Solution:
         for k, v in dict.items():
             if v >= len(nums) / 2:
                 return k
-
-if __name__ == '__main__':
-    solution = Solution()
-    print(solution.majorityElement([3,2,3]))
