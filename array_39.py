@@ -5,16 +5,22 @@ class Solution(object):
         :type target: int
         :rtype: List[List[int]]
         """
+        """数组中和为target的所有可能结果
+        """
         result_list = []
         temp = []
         candidates.sort()
         self.findAllSolution(candidates, result_list, temp, target, 0)
 
+        # print("result list ", result_list)
         return result_list
 
     def findAllSolution(self, candidates, result_list, temp, target, index):
         if target == 0:
-            result_list.append(temp)
+            # print("find all result list", result_list)
+            import copy
+            result_list.append(copy.deepcopy(temp))
+            # print("after find all result list", result_list)
             return
         else:
             for i in range(index, len(candidates)):
@@ -22,9 +28,9 @@ class Solution(object):
                     return
                 temp.append(candidates[i])
                 self.findAllSolution(candidates, result_list, temp, target - candidates[i], i)
-                temp.pop(-1)
+                temp.pop()
 
 if __name__ == '__main__':
     solution = Solution()
-    print(solution.combinationSum( [2,3,6,7], 7))
+    print(solution.combinationSum( [2,3,5,6,7], 7))
 
