@@ -6,6 +6,7 @@ class TreeNode:
         self.right = None
 
 class Solution:
+
     def pathSum(self, root, sum):
         """
         :type root: TreeNode
@@ -14,23 +15,42 @@ class Solution:
         """
         if root is None:
             return []
-
         result = []
-        queue = [root]
-        temp = [root.val]
+        self.pathSum_recv(root, result, [], sum)
+
+        return result
+    ####递归算法
+    def pathSum_recv(self, root, result, temp, sum):
+        if root.left is None and root.right is None and root.val == sum:
+            temp.append(root.val)
+            result.append(temp)
+        if root.left:
+            self.pathSum_recv(root.left, result, temp + [root.val], sum - root.val)
+        if root.right:
+            self.pathSum_recv(root.right, result, temp + [root.val], sum - root.val)
+    ###深度优先遍历，用先进先出的queue
+    def pathSum_dfs(self, root, s):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: List[List[int]]
+        """
+        if root is None:
+            return []
+        result = []
+        queue = [(root, [root.val])]
         while len(queue) > 0:
-            if self.sum_num(temp) == sum:
+            current_node, temp = queue.pop(0)
+            if current_node.left is None and current_node.right is None and sum(temp) == s:
                 result.append(temp)
+            if current_node.left:
+                queue.append((current_node.left, temp + [current_node.left.val]))
+            if current_node.right:
+                queue.append((current_node.right, temp + [current_node.right.val]))
 
-            remove_node = queue.pop(0)
-            if remove_node.left:
-                queue.append(remove_node.left)
+        return result
 
-            if remove_node.right:
-                queue.append(remove_node.right)
 
-    def sum_num(self, list):
-        return sum(list)
 if __name__ == '__main__':
     solution = Solution()
     root = TreeNode(-2)
@@ -40,4 +60,4 @@ if __name__ == '__main__':
     # root.right.left = TreeNode(13)
     # root.right.right = TreeNode(4)
 
-    print(solution.hasPathSum(root, -5))
+    print(solution.pathSum_dfs(root, -5))
