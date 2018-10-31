@@ -13,8 +13,14 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        if (p.left and p.left == q) or (p.right and p.right == q):
-            return p
-        if (q.left and q.left == p) or (q.right and q.right == p):
-            return q
-        
+        """
+        采用递归，如果p q都在左子树，递归左边，都在右子树，递归右边，一左一右，那结果就是root
+        """
+        if root is None:
+            return root
+        if p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        elif p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+
+        return root
