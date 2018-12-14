@@ -1,35 +1,37 @@
-class Solution:
+class Solution(object):
     def generateMatrix(self, n):
         """
         :type n: int
         :rtype: List[List[int]]
         """
-        """
-        从n^2开始，每次顺时针旋转当前矩阵，并且在此基础上添加一行
-        ||  =>  |9|  =>  |8|      |6 7|      |4 5|      |1 2 3|
-                         |9|  =>  |9 8|  =>  |9 6|  =>  |8 9 4|
-                                             |8 7|      |7 6 5|
-        """
-        result = []
-        min_num = n * n + 1
-        while min_num > 1:
-            min_num, max_num = min_num - len(result), min_num
-            result = [list(range(min_num, max_num))] + [*zip(*result[::-1])]
+        if n <= 0:
+            return []
+        result = [[0] * n for _ in range(n)]
+        start_row, end_row, start_col, end_col = 0, n-1, 0, n-1
+        number = 1
+        while start_row <= end_row and start_col <= end_col:
+            for i in range(start_col, end_col+1):
+                result[start_row][i] = number
+                number += 1
+            if end_row > start_row:
+                for i in range(start_row + 1, end_row + 1):
+                    result[i][end_col] = number
+                    number += 1
+            if end_row > start_row and end_col > start_col:
+                for i in range(end_col-1, start_col-1, -1):
+                    result[end_row][i] = number
+                    number += 1
+            if end_row - 1 > start_row and end_col > start_col:
+                for i in range(end_row-1, start_row, -1):
+                    result[i][start_col] = number
+                    number += 1
+            start_row +=1
+            end_row -= 1
+            start_col += 1
+            end_col -= 1
 
         return result
 
-    def generateMatrix_walk(self, n):
-        A = [[0] * n for _ in range(n)]
-        i, j, di, dj = 0, 0, 0, 1
-        for k in range(n * n):
-            print("i, j, di, dj", i, j, di, dj)
-            A[i][j] = k + 1
-            if A[(i + di) % n][(j + dj) % n]:
-                di, dj = dj, -di
-            i += di
-            j += dj
-        return A
-
 if __name__ == '__main__':
     solution = Solution()
-    print(solution.generateMatrix_walk(3))
+    print(solution.generateMatrix(1))
