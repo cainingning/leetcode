@@ -21,8 +21,9 @@ class Solution:
                 node = tmp.pop(0)
                 if i < num - 1:
                     node.next = tmp[0]
-                if node.left and node.right:
+                if node.left:
                     tmp.append(node.left)
+                if node.right:
                     tmp.append(node.right)
     """start 标记每一层起始节点，cur用来遍历这一层"""
     def conncet_nb(self, root):
